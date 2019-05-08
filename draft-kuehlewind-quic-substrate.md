@@ -197,12 +197,13 @@ observers, possibly hiding the natural traffic patterns associated with the
 sensor network.  A mechanism to provide discovery of the proxy node to the rest
 of the piconet is also typically necessary.
 
-Today, the above requirements can be met by composing end-to-end DTLS sessions
-with client-chosen connection IDs from the sensors to the cloud together with a
-multiplexed secure tunnel (e.g., using HTTP/2 Websockets {{?RFC8441}}, or a
-proprietary shim) from the gateway to the cloud.  In the future, a more
-homogeneous solution could be provided by QUIC for both the end-to-end and
-tunnelling services, thus simplifying code dependencies on the gateway nodes.
+Today, the above requirements can be met by composing end-to-end DTLS
+{{?I-D.ietf-tls-dtls-connection-id}} sessions with client-chosen connection IDs
+from the sensors to the cloud together with a multiplexed secure tunnel (e.g.,
+using HTTP/2 Websockets {{?RFC8441}}, or a proprietary shim) from the gateway
+to the cloud.  In the future, a more homogeneous solution could be provided by
+QUIC {{?I-D.ietf-quic-transport}} for both the end-to-end and tunnelling
+services, thus simplifying code dependencies on the gateway nodes.
 
 
 # Requirements
