@@ -30,13 +30,14 @@ informative:
 
 --- abstract
 
-QUIC is a new, emerging transport protocol. Similarily as TCP is used today as
-encapsulation or tunneling protocol, there is an expectation that QUIC will
-be used as a substrate when widely deployed. Using QUIC instead of TCP in
-existing scenarios can have a benefit of avoiding support for different
-protocols if the inner protocol is also QUIC. Further, use of QUIC enables new
-opperunties for the respective tunneling or encapsulation usage due to low latency
-and multistreaming support. This document summarizes current and future usage
+QUIC is a new, emerging transport protocol. Similarly to how TCP is used today
+as encapsulation or tunneling protocol -- typically in association with a
+secure protocol, for example TLS, SSH -- it is expected that QUIC will be used
+as a substrate when widely deployed. Using QUIC instead of TCP in existing
+scenarios can have a benefit of avoiding support for different protocols if the
+inner protocol is also QUIC. Further, use of QUIC enables new opportunities for
+the respective tunneling or encapsulation usage due to lower setup latency and
+multi-streaming support.  This document summarizes current and future usage
 scenarios to derive requirements for QUIC and to provide additional protocol
 considerations.
 
@@ -44,23 +45,24 @@ considerations.
 
 # Introduction
 
-QUIC is a new transport protocol that initially was developed as an optimization
-for HTTP traffic by supporting multiplexing and the integration of security.
-The latter enables a speed-up of the handshake to set up both at the same time, a
+QUIC is a new transport protocol that was initially developed as an
+optimization for HTTP traffic by supporting multiplexing and the integration of
+security.  The latter enables a speed-up of the handshake to set up the
 transport connection as well as the needed security context for encryption and
-authentication. With the expectation that QUIC will be widely used for HTTP, it
-also makes sense to enable use of QUIC e.g. for HTTP proxy services.
+authentication at the same time.  Given the expectation that QUIC will be widely
+used for HTTP, it also makes sense to enable use of QUIC for HTTP proxy
+services.
 
 However, QUIC is a general purpose transport protocol and it is expected that it
 will be used in future for many other kinds of traffic, whenever the features
 provided by QUIC (compared to TCP) are beneficial for the high-layer service.
 Especially QUIC's multiplexing support and build-in encryption support can come
-handy for tunneling or proxying setups in general.
+in handy for tunneling or proxying setups in general.
 
 While today proxies are often operated in a transparent fashion, it is expected
 that future in-network services will work in a cooperative way by being visible
 and explicitly selected by at least one of the endpoints. This does not only
-enable an client endpoint to make an explicit decision about the service requested to 
+enable a client endpoint to make an explicit decision about the service requested to
 a proxy, such as simple forwarding or more advanced services to optimize performance,
 but also provides a secured communication channel between a middlepoint and the
 endpoint.
@@ -73,13 +75,13 @@ endpoint.
 Tunnels are used in many scenarios within the core of the network as well as
 from an client endpoint to a proxy middlepoint on the way towards the server. In many cases, when
 the client explicitly decides to use the support of a proxy in order to get
-connected to a server, this is because a direct connection may be impaired. This
-can either be the case in e.g. enterprise network where traffic is firewalled
+connected to a server, this is because a direct connection may be impaired. For example, this
+can be the case in enterprise network where traffic is firewalled
 and web traffic needs to be routed over an explicitly provided HTTP proxy, or
-other reason for blocking of certain services e.g. due to censorship.
+other reasons exist for blocking of certain services: censorship, data exfiltration protection, etc.
 
 In this usage scenario the client knows the proxy's address and explicitly
-selects to connect to the proxy in oder to instruct the proxy to forward its
+selects to connect to the proxy in order to instruct the proxy to forward its
 traffic to a specific server. At a minimum, the client needs to communicate
 directly with the proxy to provide the address of the server it wants to connect to,
 e.g. using HTTP CONNECT.
@@ -97,19 +99,19 @@ In any of these tunneling scenarios, including those deployed today, the client
 explicitly decides to make use of a proxy service while being fully transparent
 for server, or even with the intention to hide the client's identity from the
 server. This is explicitly part of the design as these services are targeting an
-impaired or otherwise constraint network setup. Therefore, an explicit
-communication channel between client and proxy is needed to at minimum
+impaired or otherwise constrained network setup. Therefore, an explicit
+communication channel between client and proxy is needed to at least
 communicate the information about the target server's address, and potentially
-even more information.
+other information needed to inform the behaviour of the proxy.
 
 
 ## Advanced Support of User Agents
 
 Depending on the traffic that is sent "over" the proxy, it is also possible that
 the proxy can perform additional support services if requested by the client.
-Today, Performance Enhancing Proxies (PePs) usually work transparently by either
+Today, Performance Enhancing Proxies (PEPs) usually work transparently by either
 fully or partially terminating the transport connection or even intercepting the
-end-to-end encryption. However, for many of theses support services termination
+end-to-end encryption. However, for many of these support services, termination
 is actually not needed or even problematic, but often the only or at least
 easiest solution if no direct communication with the client is available.
 Enabling these services based on an explicit tunnel setup between the client and
@@ -117,22 +119,22 @@ the proxy provides such a communication channel and makes it possible to
 exchange information in a private and authenticated way.
 
 It is expected that in-network functions are usually provided close to the
-client e.g. hosted by the access network provider. Having this direct relation between
+client, e.g. hosted by the access network provider. Having this direct relation between
 the endpoint and the network service is also necessary in order to discover the
 service, as the assumption is that a client knows how to address the proxy
 service and which service is offered (besides forwarding). Such a setup is
 especially valuable in access networks with challenging link environments such as
 satellite or cellular networks. While end-to-end functions need to be designed
 to handle all kind of network conditions, direct support from the network can
-help to optimize for the specific characteristics of the access network such as e.g. use
+help to optimize for the specific characteristics of the access network such as use
 of link-specific congestion control or local repair mechanisms.
 
 Further, if not provided by the server directly, a network support function can
-also assist the client to adapt the traffic based on device characterics and
+also assist the client to adapt the traffic based on device characteristics and
 capabilities or user preferences. Again, especially if the access network is
-constraint, this can benefit both, the network provider to save resources and
+constrained, this can benefit both, the network provider to save resources and
 the client to receive the desired service quicker or less impaired. Such a
-service could even be extended to include caching or pre-catching depending on
+service could even be extended to include caching or pre-fetching depending on
 the trust relationship between the client and the proxy.
 
 Depending on the function provided, the proxy may need to access or alter the
@@ -145,7 +147,7 @@ dependencies to higher layer characteristics as those may change frequently.
 
 Similar as in the previous usage scenario, in this setup the client explicitly
 selects the proxy and specifies the requested support function. Often the server
-may not need to be aware of it, however, depending on optimzation function,
+may not need to be aware of it, however, depending on the optimization function,
 server cooperation could be beneficial as well. However, the client and the proxy
 need a direct and secured communication channel in order to request and configure
 a service and exchange or expose the needed information and metadata. 
@@ -156,13 +158,13 @@ a service and exchange or expose the needed information and metadata.
 In this usage scenario the application service provider aims for flexibility in
 server selection, therefore the client communicates with a reverse proxy that may
 or may not be under the authority of the service provider. Such proxy assist the client
-to access and select the content requested. Today auch a proxy would terminate the
+to access and select the content requested. Today such a proxy would terminate the
 connection, including the security association, and as such appear as the communication
 endpoint to the client. Terminating not only the transport connection but also the 
 security association is especially problematic if the proxy provider under the direct
 authority of the services provided but a contracted third party.
 
-As similar setup may be used to perform load balancing or migration for mobility support 
+A similar setup may be used to perform load balancing or migration for mobility support
 of both, the server or client, where a frontend proxy can redirect the traffic
 to a different backend server. Today this realized fully transparent to the client 
 and the client is not aware of the network setup behind the proxy, however, such a setup
