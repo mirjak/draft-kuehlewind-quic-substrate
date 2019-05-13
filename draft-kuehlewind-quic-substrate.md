@@ -30,13 +30,13 @@ informative:
 
 --- abstract
 
-QUIC is a new, emerging transport protocol. Similarily as TCP is used today as
-encapsulation or tunneling protocol, there is an expectation that QUIC will
-be used as a substrate when widely deployed. Using QUIC instead of TCP in
-existing scenarios can have a benefit of avoiding support for different
-protocols if the inner protocol is also QUIC. Further, use of QUIC enables new
-opperunties for the respective tunneling or encapsulation usage due to low latency
-and multistreaming support. This document summarizes current and future usage
+QUIC is a new, emerging transport protocol. Similarily to how TCP is used today as
+proxying or tunneling protocol, there is an expectation that QUIC will
+be used as a substrate once it is widely deployed. Using QUIC instead of TCP in
+existing scenarios will allow proxying and tunneling services to maintain the benefits
+of QUIC natively, without degrading the peformance and security characteristics.
+QUIC also opens up new opportunties for these services to have lower latency and
+better multistreaming support. This document summarizes current and future usage
 scenarios to derive requirements for QUIC and to provide additional protocol
 considerations.
 
@@ -44,27 +44,32 @@ considerations.
 
 # Introduction
 
-QUIC is a new transport protocol that initially was developed as an optimization
-for HTTP traffic by supporting multiplexing and the integration of security.
-The latter enables a speed-up of the handshake to set up both at the same time, a
-transport connection as well as the needed security context for encryption and
-authentication. With the expectation that QUIC will be widely used for HTTP, it
-also makes sense to enable use of QUIC e.g. for HTTP proxy services.
+QUIC is a new transport protocol that was initially developed as a way to optimize
+HTTP traffic by supporting multiplexing without head-of-line-blocking and integrating
+security directly into the transport. This tight integration of security allows the transport
+and security handshakes to be combined into a single round-trip exchange, after which
+both the transport connection and authenticated encryption keys are ready.
 
-However, QUIC is a general purpose transport protocol and it is expected that it
-will be used in future for many other kinds of traffic, whenever the features
-provided by QUIC (compared to TCP) are beneficial for the high-layer service.
-Especially QUIC's multiplexing support and build-in encryption support can come
-handy for tunneling or proxying setups in general.
+Based on the expectation that QUIC will be widely used for HTTP, it follows that there
+will also be a need to enable the use of QUIC for HTTP proxy services.
 
-While today proxies are often operated in a transparent fashion, it is expected
-that future in-network services will work in a cooperative way by being visible
-and explicitly selected by at least one of the endpoints. This does not only
-enable an client endpoint to make an explicit decision about the service requested to 
-a proxy, such as simple forwarding or more advanced services to optimize performance,
-but also provides a secured communication channel between a middlepoint and the
-endpoint.
+Beyond HTTP, however, QUIC provides a general-purpose transport protocol that can
+be used for many other kinds of traffic, whenever the features provided by QUIC
+(compared to existing options, like TCP) are beneficial to the high-layer service.
+Specifically, QUIC's ability to multiplex, encrypt data, and migrate between network paths
+makes it ideal for solutions that need to tunnel or proxy traffic.
 
+Existing proxies that are not based on QUIC are often transparent. That is, they do not
+require the cooperation of the ultimate connection endpoints, and are often not
+visible to one or both of the endpoints. If QUIC provides the basis for future tunneling
+and proxying solutions, it is expected that this relationship will change. At least one
+of the endpoints will be aware of the proxy and explicitly coordinate with it. This allows
+client hosts to make explicit decisions about the services they request from proxies
+(for example, simple forward or more advance performance-optimizing services),
+and do so using a secure communication channel between themselves and the proxy.
+
+This document describes some of the use cases for using QUIC for proxying and tunneling,
+and explains the protocol impacts and tradeoffs of such deployments.
 
 # Usage Scenarios
 
