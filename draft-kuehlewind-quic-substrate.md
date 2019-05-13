@@ -181,6 +181,35 @@ in order to advise it about server selection. However, the client is usually not
 any specifics about the setup behind the substrate endpoint.
 
 
+## IoT Gateways Use Case
+
+A number of IoT devices is connected via a low-power WPAN (e.g., a BLE piconet)
+and need to talk to their parent cloud service to provide sensor readings or
+receive firmware updates.  When end-to-end IP connectivity is not possible or
+desirable for at least some of the devices, one or more IP capable nodes in the
+piconet can be designated as ad-hoc gateways to forward sensor traffic to the
+cloud and vice-versa.  In other scenarios, a less constrained node - sometimes
+called a "smart gateway" - can assume the forwarding role permanently.  In both
+cases, the gateway node routes messages based on client's session identifiers,
+which need to be unique among all the active participants so that the gateway
+can route unambiguously.  The access network attachment is expected to change
+over time but the end-to-end communication (especially the security
+association) needs to persist for as long as possible.  A strong requirement
+for these deployments is privacy: data on the public Internet (i.e., from the
+gateway to the cloud service) needs to be made as opaque as possible to passive
+observers, possibly hiding the natural traffic patterns associated with the
+sensor network.  A mechanism to provide discovery of the proxy node to the rest
+of the piconet is also typically necessary.
+
+Today, the above requirements can be met by composing end-to-end DTLS
+{{?I-D.ietf-tls-dtls-connection-id}} sessions with client-chosen connection IDs
+from the sensors to the cloud together with a multiplexed secure tunnel (e.g.,
+using HTTP/2 Websockets {{?RFC8441}}, or a proprietary shim) from the gateway
+to the cloud.  In the future, a more homogeneous solution could be provided by
+QUIC {{?I-D.ietf-quic-transport}} for both the end-to-end and tunnelling
+services, thus simplifying code dependencies on the gateway nodes.
+
+
 # Requirements
 
 To use QUIC as a substrate, it could be beneficial if unreliable transmission is
