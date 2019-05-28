@@ -73,12 +73,12 @@ and explains the protocol impacts and tradeoffs of such deployments.
 
 # Usage Scenarios
 
-## Use of Tunnels for Obfuscations and Content Selection
+## Obfuscation via Tunneling
 
 Tunnels are used in many scenarios within the core of the network as well as
 from a client endpoint to a proxy middlepoint on the way towards the server. In many cases, when
-the client explicitly decides to use the support of a proxy in order to get
-connected to a server, this is because a direct connection may be impaired. This
+the client explicitly decides to use the support of a proxy in order to
+connect to a server, it does so because a direct connection may be blocked or impaired. This
 can either be the case in e.g. enterprise network where traffic is firewalled
 and web traffic needs to be routed over an explicitly provided HTTP proxy, or
 other reason for blocking of certain services e.g. due to censorship, data
@@ -89,6 +89,23 @@ selects to connect to the proxy in order to instruct the proxy to forward its
 traffic to a specific server. At a minimum, the client needs to communicate
 directly with the proxy to provide the address of the server it wants to connect to,
 e.g. using HTTP CONNECT.
+
+Tunneling through a proxy server can provide various benefits, particularly when
+using a proxy that has a secure multiplexed channel like QUIC:
+
+- Obfuscating the end server's IP address from the observers between the client and
+the proxy, which protects the identity of a private server's address or circumvents
+local firewall rules.
+
+- Obfuscating the client's IP address from the perspective of observers after the proxy,
+to the end server itself. This allows the client to select content as if it has the address
+or location of the proxy.
+
+- Obfuscating the traffic patterns of the traffic from the perspective of observers
+between the client and the proxy. If the content of connections to many end servers
+can be coalesced as one flow, it becomes increasingly difficult for observers to
+detect how many inner connections are being used, or what the content of
+those connections are.
 
 Such a setup can also be realized with the use of an outer tunnel which would additionally
 obfuscate the content of the tunnel traffic to any observer between the client
@@ -107,7 +124,6 @@ impaired or otherwise constraint network setup. Therefore, an explicit
 communication channel between client and proxy is needed to at least
 communicate the information about the target server's address, and potentially
 other information needed to inform the behaviour of the proxy.
-
 
 ## Advanced Support of User Agents
 
