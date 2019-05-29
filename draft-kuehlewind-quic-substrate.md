@@ -1,6 +1,6 @@
 ---
 title: Use Cases and Requirements for QUIC as a Substrate
-abbrev: QUIC Substarte
+abbrev: QUIC Substrate
 docname: draft-kuehlewind-quic-substrate-latest
 date:
 category: info
@@ -30,8 +30,8 @@ informative:
 
 --- abstract
 
-QUIC is a new, emerging transport protocol. Similarly to how TCP is used today as
-proxying or tunneling protocol, there is an expectation that QUIC will
+TCP is often used as a proxying or tunneling protocol. QUIC is a new, 
+emerging transport protocol and there is a similar expectation that it too will
 be used as a substrate once it is widely deployed. Using QUIC instead of TCP in
 existing scenarios will allow proxying and tunneling services to maintain the benefits
 of QUIC natively, without degrading the performance and security characteristics.
@@ -66,7 +66,7 @@ and proxying solutions, it is expected that this relationship will change. At le
 of the endpoints will be aware of the proxy and explicitly coordinate with it. This allows
 client hosts to make explicit decisions about the services they request from proxies
 (for example, simple forward or more advance performance-optimizing services),
-and do so using a secure communication channel between themselves and the proxy.
+and to do so using a secure communication channel between themselves and the proxy.
 
 This document describes some of the use cases for using QUIC for proxying and tunneling,
 and explains the protocol impacts and tradeoffs of such deployments.
@@ -81,7 +81,7 @@ the client explicitly decides to use the support of a proxy in order to
 connect to a server, it does so because a direct connection may be blocked or impaired. This
 can either be the case in e.g. enterprise network where traffic is firewalled
 and web traffic needs to be routed over an explicitly provided HTTP proxy, or
-other reason for blocking of certain services e.g. due to censorship, data
+other reasons for blocking of certain services e.g. due to censorship, data
 exfiltration protection, etc.
 
 In this usage scenario the client knows the proxy's address and explicitly
@@ -120,7 +120,7 @@ In any of these tunneling scenarios, including those deployed today, the client
 explicitly decides to make use of a proxy service while being fully transparent
 for server, or even with the intention to hide the client's identity from the
 server. This is explicitly part of the design as these services are targeting an
-impaired or otherwise constraint network setup. Therefore, an explicit
+impaired or otherwise constrained network setup. Therefore, an explicit
 communication channel between client and proxy is needed to at least
 communicate the information about the target server's address, and potentially
 other information needed to inform the behaviour of the proxy.
@@ -131,9 +131,9 @@ Depending on the traffic that is sent "over" the proxy, it is also possible that
 the proxy can perform additional support services if requested by the client.
 Today, Performance Enhancing Proxies (PEPs) usually work transparently by either
 fully or partially terminating the transport connection or even intercepting the
-end-to-end encryption. However, for many of these support services termination
-is actually not needed or even problematic, but often the only or at least
-easiest solution if no direct communication with the client is available.
+end-to-end encryption. For many of these support services termination
+is actually not needed and may even be problematic. However, it is often the only,
+or at least easiest, solution if no direct communication with the client is available.
 Enabling these services based on an explicit tunnel setup between the client and
 the proxy provides such a communication channel and makes it possible to
 exchange information in a private and authenticated way.
@@ -152,7 +152,7 @@ of link-specific congestion control or local repair mechanisms.
 Further, if not provided by the server directly, a network support function can
 also assist the client to adapt the traffic based on device characteristics and
 capabilities or user preferences. Again, especially if the access network is
-constraint, this can benefit both, the network provider to save resources and
+constrained, this can benefit both the network provider to save resources and
 the client to receive the desired service quicker or less impaired. Such a
 service could even be extended to include caching or pre-fetching depending on
 the trust relationship between the client and the proxy.
@@ -160,7 +160,7 @@ the trust relationship between the client and the proxy.
 Depending on the function provided, the proxy may need to access or alter the
 traffic or content. Alternatively, if the information provided by the client or proxy
 can be trusted, it might in some cases also be possible for each of the entities
-to act based on these information without the need to access the content or some
+to act based on this information without the need to access the content or some
 of the traffic metadata directly. Especially transport layer optimizations do not need
 access to the actual user content. Network functions should generally minimize
 dependencies to higher layer characteristics as those may change frequently.
@@ -177,17 +177,17 @@ a service and exchange or expose the needed information and metadata.
 
 In this usage scenario the application service provider aims for flexibility in
 server selection, therefore the client communicates with a reverse proxy that may
-or may not be under the authority of the service provider. Such proxy assist the client
-to access and select the content requested. Today such a proxy would terminate the
+or may not be under the authority of the service provider. Such a proxy assists the client
+to access and select the content requested. Today reverse proxies terminate the
 connection, including the security association, and as such appear as the communication
 endpoint to the client. Terminating not only the transport connection but also the 
 security association is especially problematic if the proxy provider under the direct
 authority of the services provided but a contracted third party.
 
-A similar setup may be used to perform load balancing or migration for mobility support 
-of both, the server or client, where a frontend proxy can redirect the traffic
-to a different backend server. Today this realized fully transparent to the client 
-and the client is not aware of the network setup behind the proxy, however, such a setup
+A similar setup may be used to perform load balancing or migration for mobility support, 
+of both the server or client, where a frontend proxy can redirect the traffic
+to a different backend server. Today this is realized fully transparent to the client 
+and the client is not aware of the network setup behind the proxy. However, such a setup
 may as well benefit in future from an explicit tunneling or proxying approach.
 
 In this usage scenario the client interact with a proxy that is located close to the 
@@ -200,7 +200,7 @@ any specifics about the setup behind the substrate endpoint.
 
 ## IoT Gateways Use Case
 
-A number of IoT devices is connected via a low-power WPAN (e.g., a BLE piconet)
+A number of IoT devices are connected via a low-power WPAN (e.g., a BLE piconet)
 and need to talk to their parent cloud service to provide sensor readings or
 receive firmware updates.  When end-to-end IP connectivity is not possible or
 desirable for at least some of the devices, one or more IP capable nodes in the
@@ -223,7 +223,7 @@ Today, the above requirements can be met by composing end-to-end DTLS
 from the sensors to the cloud together with a multiplexed secure tunnel (e.g.,
 using HTTP/2 Websockets {{?RFC8441}}, or a proprietary shim) from the gateway
 to the cloud.  In the future, a more homogeneous solution could be provided by
-QUIC {{?I-D.ietf-quic-transport}} for both the end-to-end and tunnelling
+QUIC {{?I-D.ietf-quic-transport}} for both the end-to-end and tunneling
 services, thus simplifying code dependencies on the gateway nodes.
 
 
