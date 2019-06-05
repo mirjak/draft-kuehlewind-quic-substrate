@@ -243,3 +243,4 @@ as a substrate by an observer on the path.
 
 # Acknowledgments
 
+Thanks to Tommy Pauly, Thomas Fossati, and Lucas Pardue for contributing thoughts and comments on these use cases, as well as text edits!
