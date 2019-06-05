@@ -180,9 +180,9 @@ server selection, therefore the client communicates with a reverse proxy that ma
 or may not be under the authority of the service provider. Such a proxy assists the client
 to access and select the content requested. Today reverse proxies terminate the
 connection, including the security association, and as such appear as the communication
-endpoint to the client. Terminating not only the transport connection but also the 
-security association is especially problematic if the proxy provider under the direct
-authority of the services provided but a contracted third party.
+endpoint to the client. Terminating not only the transport connection but also the
+security association is especially problematic if the proxy provider is not under the direct
+authority of the actual service provider but a contracted third party.
 
 A similar setup may be used to perform load balancing or migration for mobility support, 
 of both the server or client, where a frontend proxy can redirect the traffic
@@ -243,4 +243,5 @@ as a substrate by an observer on the path.
 
 # Acknowledgments
 
-Thanks to Tommy Pauly, Thomas Fossati, and Lucas Pardue for contributing thoughts and comments on these use cases, as well as text edits!
+Thanks to Tommy Pauly, Thomas Fossati, and Lucas Pardue for contributing thoughts
+and comments on these use cases, as well as text edits!
