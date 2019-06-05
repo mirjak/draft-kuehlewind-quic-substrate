@@ -1,0 +1,515 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Use Cases and Requirements for QUIC as a Substrate</title>
+
+  
+<style type="text/css">/*<![CDATA[*/
+
+body {
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
+}
+
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: bold;
+  color: #333;
+  line-height: 100%;
+  margin: 1.2em 0 0.3em;
+}
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header, table#rfc\.headerblock {
+  width: 100%;
+}
+table.header td, table#rfc\.headerblock td {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+}
+.filename {
+  display: block;
+  color: rgb(119, 119, 119);
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract+p code, #rfc\.abstract+p samp, #rfc\.abstract+p tt {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+samp, tt, code, pre, span.tt {
+  font-size: 13.5px;
+  font-family: Consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure, caption {
+  font-style: italic;
+  margin: 0 1.5em;
+  text-align: left;
+}
+
+address {
+  margin: 16px 2px;
+  line-height: 20px;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn, address b {
+  font-weight: normal;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+hr.noprint {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+p, ol, ul, li {
+  padding: 0;
+}
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
+}
+address {
+  font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+  <meta name="viewport" content="initial-scale=1.0">
+
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.2" rel="Chapter" title="2 Usage Scenarios">
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Obfuscation via Tunneling">
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Advanced Support of User Agents">
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Frontend Support for Load Balancing and Migration/Mobility">
+<link href="#rfc.section.2.4" rel="Chapter" title="2.4 IoT Gateways Use Case">
+<link href="#rfc.section.2.5" rel="Chapter" title="2.5 Combined Middlebox Usage">
+<link href="#rfc.section.3" rel="Chapter" title="3 Requirements">
+<link href="#rfc.section.4" rel="Chapter" title="4 Contributors">
+<link href="#rfc.section.5" rel="Chapter" title="5 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="6 Informative References">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.10.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Kuehlewind, M. and Z. Sarker" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-kuehlewind-quic-substrate-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-06-05" />
+  <meta name="dct.abstract" content="TCP is often used as a proxying or tunneling protocol. QUIC is a new, emerging transport protocol and there is a similar expectation that it too will be used as a substrate once it is widely deployed. Using QUIC instead of TCP in existing scenarios will allow proxying and tunneling services to maintain the benefits of QUIC natively, without degrading the performance and security characteristics.  QUIC also opens up new opportunities for these services to have lower latency and better multistreaming support. This document summarizes current and future usage scenarios to derive requirements for QUIC and to provide additional protocol considerations." />
+  <meta name="description" content="TCP is often used as a proxying or tunneling protocol. QUIC is a new, emerging transport protocol and there is a similar expectation that it too will be used as a substrate once it is widely deployed. Using QUIC instead of TCP in existing scenarios will allow proxying and tunneling services to maintain the benefits of QUIC natively, without degrading the performance and security characteristics.  QUIC also opens up new opportunities for these services to have lower latency and better multistreaming support. This document summarizes current and future usage scenarios to derive requirements for QUIC and to provide additional protocol considerations." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">Network Working Group</td>
+<td class="right">M. Kuehlewind</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">Z. Sarker</td>
+</tr>
+<tr>
+<td class="left">Intended status: Informational</td>
+<td class="right">Ericsson</td>
+</tr>
+<tr>
+<td class="left">Expires: December 7, 2019</td>
+<td class="right">June 05, 2019</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Use Cases and Requirements for QUIC as a Substrate<br />
+  <span class="filename">draft-kuehlewind-quic-substrate-latest</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>TCP is often used as a proxying or tunneling protocol. QUIC is a new, emerging transport protocol and there is a similar expectation that it too will be used as a substrate once it is widely deployed. Using QUIC instead of TCP in existing scenarios will allow proxying and tunneling services to maintain the benefits of QUIC natively, without degrading the performance and security characteristics.  QUIC also opens up new opportunities for these services to have lower latency and better multistreaming support. This document summarizes current and future usage scenarios to derive requirements for QUIC and to provide additional protocol considerations.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on December 7, 2019.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+<h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">QUIC is a new transport protocol that was initially developed as a way to optimize HTTP traffic by supporting multiplexing without head-of-line-blocking and integrating security directly into the transport. This tight integration of security allows the transport and security handshakes to be combined into a single round-trip exchange, after which both the transport connection and authenticated encryption keys are ready.</p>
+<p id="rfc.section.1.p.2">Based on the expectation that QUIC will be widely used for HTTP, it follows that there will also be a need to enable the use of QUIC for HTTP proxy services.</p>
+<p id="rfc.section.1.p.3">Beyond HTTP, however, QUIC provides a general-purpose transport protocol that can be used for many other kinds of traffic, whenever the features provided by QUIC (compared to existing options, like TCP) are beneficial to the high-layer service.  Specifically, QUIC&#8217;s ability to multiplex, encrypt data, and migrate between network paths makes it ideal for solutions that need to tunnel or proxy traffic.</p>
+<p id="rfc.section.1.p.4">Existing proxies that are not based on QUIC are often transparent. That is, they do not require the cooperation of the ultimate connection endpoints, and are often not visible to one or both of the endpoints. If QUIC provides the basis for future tunneling and proxying solutions, it is expected that this relationship will change. At least one of the endpoints will be aware of the proxy and explicitly coordinate with it. This allows client hosts to make explicit decisions about the services they request from proxies (for example, simple forward or more advance performance-optimizing services), and to do so using a secure communication channel between themselves and the proxy.</p>
+<p id="rfc.section.1.p.5">This document describes some of the use cases for using QUIC for proxying and tunneling, and explains the protocol impacts and tradeoffs of such deployments.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#usage-scenarios" id="usage-scenarios">Usage Scenarios</a>
+</h1>
+<h1 id="rfc.section.2.1">
+<a href="#rfc.section.2.1">2.1.</a> <a href="#obfuscation-via-tunneling" id="obfuscation-via-tunneling">Obfuscation via Tunneling</a>
+</h1>
+<p id="rfc.section.2.1.p.1">Tunnels are used in many scenarios within the core of the network as well as from a client endpoint to a proxy middlepoint on the way towards the server. In many cases, when the client explicitly decides to use the support of a proxy in order to connect to a server, it does so because a direct connection may be blocked or impaired. This can either be the case in e.g. enterprise network where traffic is firewalled and web traffic needs to be routed over an explicitly provided HTTP proxy, or other reasons for blocking of certain services e.g. due to censorship, data exfiltration protection, etc.</p>
+<p id="rfc.section.2.1.p.2">In this usage scenario the client knows the proxy&#8217;s address and explicitly selects to connect to the proxy in order to instruct the proxy to forward its traffic to a specific server. At a minimum, the client needs to communicate directly with the proxy to provide the address of the server it wants to connect to, e.g. using HTTP CONNECT.</p>
+<p id="rfc.section.2.1.p.3">Tunneling through a proxy server can provide various benefits, particularly when using a proxy that has a secure multiplexed channel like QUIC:</p>
+<p></p>
+
+<ul>
+<li>Obfuscating the end server&#8217;s IP address from the observers between the client and the proxy, which protects the identity of a private server&#8217;s address or circumvents local firewall rules.</li>
+<li>Obfuscating the client&#8217;s IP address from the perspective of observers after the proxy, to the end server itself. This allows the client to select content as if it has the address or location of the proxy.</li>
+<li>Obfuscating the traffic patterns of the traffic from the perspective of observers between the client and the proxy. If the content of connections to many end servers can be coalesced as one flow, it becomes increasingly difficult for observers to detect how many inner connections are being used, or what the content of those connections are.</li>
+</ul>
+<p id="rfc.section.2.1.p.5">Such a setup can also be realized with the use of an outer tunnel which would additionally obfuscate the content of the tunnel traffic to any observer between the client and the proxy. Usually the server is not aware of the proxy in the middle, so the proxy needs to re-write the IP address of any traffic inside the tunnel to ensure that the return traffic is also routed back to the proxy. This is also often used to conceal the address/location of the client to the server, e.g. to access local content that would not be accessible by the client at its current location otherwise.</p>
+<p id="rfc.section.2.1.p.6">In any of these tunneling scenarios, including those deployed today, the client explicitly decides to make use of a proxy service while being fully transparent for server, or even with the intention to hide the client&#8217;s identity from the server. This is explicitly part of the design as these services are targeting an impaired or otherwise constrained network setup. Therefore, an explicit communication channel between client and proxy is needed to at least communicate the information about the target server&#8217;s address, and potentially other information needed to inform the behaviour of the proxy.</p>
+<h1 id="rfc.section.2.2">
+<a href="#rfc.section.2.2">2.2.</a> <a href="#advanced-support-of-user-agents" id="advanced-support-of-user-agents">Advanced Support of User Agents</a>
+</h1>
+<p id="rfc.section.2.2.p.1">Depending on the traffic that is sent &#8220;over&#8221; the proxy, it is also possible that the proxy can perform additional support services if requested by the client.  Today, Performance Enhancing Proxies (PEPs) usually work transparently by either fully or partially terminating the transport connection or even intercepting the end-to-end encryption. For many of these support services termination is actually not needed and may even be problematic. However, it is often the only, or at least easiest, solution if no direct communication with the client is available.  Enabling these services based on an explicit tunnel setup between the client and the proxy provides such a communication channel and makes it possible to exchange information in a private and authenticated way.</p>
+<p id="rfc.section.2.2.p.2">It is expected that in-network functions are usually provided close to the client e.g. hosted by the access network provider. Having this direct relation between the endpoint and the network service is also necessary in order to discover the service, as the assumption is that a client knows how to address the proxy service and which service is offered (besides forwarding). Such a setup is especially valuable in access networks with challenging link environments such as satellite or cellular networks. While end-to-end functions need to be designed to handle all kind of network conditions, direct support from the network can help to optimize for the specific characteristics of the access network such as use of link-specific congestion control or local repair mechanisms.</p>
+<p id="rfc.section.2.2.p.3">Further, if not provided by the server directly, a network support function can also assist the client to adapt the traffic based on device characteristics and capabilities or user preferences. Again, especially if the access network is constrained, this can benefit both the network provider to save resources and the client to receive the desired service quicker or less impaired. Such a service could even be extended to include caching or pre-fetching depending on the trust relationship between the client and the proxy.</p>
+<p id="rfc.section.2.2.p.4">Depending on the function provided, the proxy may need to access or alter the traffic or content. Alternatively, if the information provided by the client or proxy can be trusted, it might in some cases also be possible for each of the entities to act based on this information without the need to access the content or some of the traffic metadata directly. Especially transport layer optimizations do not need access to the actual user content. Network functions should generally minimize dependencies to higher layer characteristics as those may change frequently.</p>
+<p id="rfc.section.2.2.p.5">Similar as in the previous usage scenario, in this setup the client explicitly selects the proxy and specifies the requested support function. Often the server may not need to be aware of it, however, depending on optimization function, server cooperation could be beneficial as well. However, the client and the proxy need a direct and secured communication channel in order to request and configure a service and exchange or expose the needed information and metadata.</p>
+<h1 id="rfc.section.2.3">
+<a href="#rfc.section.2.3">2.3.</a> <a href="#frontend-support-for-load-balancing-and-migrationmobility" id="frontend-support-for-load-balancing-and-migrationmobility">Frontend Support for Load Balancing and Migration/Mobility</a>
+</h1>
+<p id="rfc.section.2.3.p.1">In this usage scenario the application service provider aims for flexibility in server selection, therefore the client communicates with a reverse proxy that may or may not be under the authority of the service provider. Such a proxy assists the client to access and select the content requested. Today reverse proxies terminate the connection, including the security association, and as such appear as the communication endpoint to the client. Terminating not only the transport connection but also the security association is especially problematic if the proxy provider under the direct authority of the services provided but a contracted third party.</p>
+<p id="rfc.section.2.3.p.2">A similar setup may be used to perform load balancing or migration for mobility support, of both the server or client, where a frontend proxy can redirect the traffic to a different backend server. Today this is realized fully transparent to the client and the client is not aware of the network setup behind the proxy. However, such a setup may as well benefit in future from an explicit tunneling or proxying approach.</p>
+<p id="rfc.section.2.3.p.3">In this usage scenario the client interact with a proxy that is located close to the server and potentially even under the same administrative domain or at least has some trust relationship with the application service provider. The server is aware of this setup and may have an own communication channel with the proxy or tunnel endpoint as well, in order to advise it about server selection. However, the client is usually not aware of any specifics about the setup behind the substrate endpoint.</p>
+<h1 id="rfc.section.2.4">
+<a href="#rfc.section.2.4">2.4.</a> <a href="#iot-gateways-use-case" id="iot-gateways-use-case">IoT Gateways Use Case</a>
+</h1>
+<p id="rfc.section.2.4.p.1">A number of IoT devices are connected via a low-power WPAN (e.g., a BLE piconet) and need to talk to their parent cloud service to provide sensor readings or receive firmware updates.  When end-to-end IP connectivity is not possible or desirable for at least some of the devices, one or more IP capable nodes in the piconet can be designated as ad-hoc gateways to forward sensor traffic to the cloud and vice-versa.  In other scenarios, a less constrained node - sometimes called a &#8220;smart gateway&#8221; - can assume the forwarding role permanently.  In both cases, the gateway node routes messages based on client&#8217;s session identifiers, which need to be unique among all the active participants so that the gateway can route unambiguously.  The access network attachment is expected to change over time but the end-to-end communication (especially the security association) needs to persist for as long as possible.  A strong requirement for these deployments is privacy: data on the public Internet (i.e., from the gateway to the cloud service) needs to be made as opaque as possible to passive observers, possibly hiding the natural traffic patterns associated with the sensor network.  A mechanism to provide discovery of the proxy node to the rest of the piconet is also typically necessary.</p>
+<p id="rfc.section.2.4.p.2">Today, the above requirements can be met by composing end-to-end DTLS <a href="#I-D.ietf-tls-dtls-connection-id" class="xref">[I-D.ietf-tls-dtls-connection-id]</a> sessions with client-chosen connection IDs from the sensors to the cloud together with a multiplexed secure tunnel (e.g., using HTTP/2 Websockets <a href="#RFC8441" class="xref">[RFC8441]</a>, or a proprietary shim) from the gateway to the cloud.  In the future, a more homogeneous solution could be provided by QUIC <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> for both the end-to-end and tunneling services, thus simplifying code dependencies on the gateway nodes.</p>
+<h1 id="rfc.section.2.5">
+<a href="#rfc.section.2.5">2.5.</a> <a href="#combined-middlebox-usage" id="combined-middlebox-usage">Combined Middlebox Usage</a>
+</h1>
+<p id="rfc.section.2.5.p.1">Reviewing the above use cases it is actually likely that applications of QUIC supporting middleboxes will combine use cases. For example by employing multiple in sequence of obfuscating proxies, where the communication with each proxy is individually secured, can enable onion like layered security. Each proxy will only know the address of the hop prior and after itself like in Tor project <a href="#TOR" class="xref">[TOR]</a>.  Another likely scenario is the combination of proxies for different reasons. A client may employ an access network related PEPs, while a web service provider may utilize a front-end load balancing proxy to provide end-to-end secure communication with the applications components servers. Here the PEP and the load balancer have different concerns. The PEP&#8217;s goal is to optimize the aggragated data transport. The load balancer needs to route different set of end-to-end protected data that it aggregates. A third example would be multipliple performance enhacing proxies that attempts to optimize the QUIC connection over a specific segment. However, these PEPs will interact and likely handle and impact the same connection related information.</p>
+<p id="rfc.section.2.5.p.2">The above examples indiactes that a solution likely have to consider how to establish a security model so that endpoints can selectively choose what conneciton related information to share with the various proxies utlized.  The possible efficiency should also be consider and blind encapsulation may be avoided when the security model allows for it. These aspects will require further consideration.</p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#requirements" id="requirements">Requirements</a>
+</h1>
+<p id="rfc.section.3.p.1">To use QUIC as a substrate, it could be beneficial if unreliable transmission is supported as well as having a way to potentially influence or disable congestion control if the inner tunnel traffic is known to be congestion controlled.</p>
+<p id="rfc.section.3.p.2">Communication between the client and proxy is more likely to be realized as a separate protocol on top of QUIC or HTTP. However, a QUIC extensibility mechanism could be used to indicate to the receiver that QUIC is used as a substrate and potentially additional information about which protocol is used for communication between these entities. A similar mechanism could be realized in HTTP instead. In both cases it is important that the QUIC connection cannot be identified as a substrate by an observer on the path.</p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#contributors" id="contributors">Contributors</a>
+</h1>
+<p id="rfc.section.4.p.1">Magnus Westerlund have contributed two paragraphs on combining proxies.</p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a>
+</h1>
+<h1 id="rfc.references">
+<a href="#rfc.references">6.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-quic-transport">[I-D.ietf-quic-transport]</b></td>
+<td class="top">
+<a>Iyengar, J.</a> and <a>M. Thomson</a>, "<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-20">QUIC: A UDP-Based Multiplexed and Secure Transport</a>", Internet-Draft draft-ietf-quic-transport-20, April 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-tls-dtls-connection-id">[I-D.ietf-tls-dtls-connection-id]</b></td>
+<td class="top">
+<a>Rescorla, E.</a>, <a>Tschofenig, H.</a> and <a>T. Fossati</a>, "<a href="https://tools.ietf.org/html/draft-ietf-tls-dtls-connection-id-05">Connection Identifiers for DTLS 1.2</a>", Internet-Draft draft-ietf-tls-dtls-connection-id-05, May 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8441">[RFC8441]</b></td>
+<td class="top">
+<a>McManus, P.</a>, "<a href="https://tools.ietf.org/html/rfc8441">Bootstrapping WebSockets with HTTP/2</a>", RFC 8441, DOI 10.17487/RFC8441, September 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="TOR">[TOR]</b></td>
+<td class="top">"<a href="https://www.torproject.org/">TOR Project</a>", June 2019.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Mirja Kuehlewind</span> 
+	  <span class="n hidden">
+		<span class="family-name">Kuehlewind</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Ericsson</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mirja.kuehlewind@ericsson.com">mirja.kuehlewind@ericsson.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Zaheduzzaman Sarker</span> 
+	  <span class="n hidden">
+		<span class="family-name">Sarker</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Ericsson</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:zaheduzzaman.sarker@ericsson.com">zaheduzzaman.sarker@ericsson.com</a></span>
+
+  </address>
+</div>
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<li>2.   <a href="#rfc.section.2">Usage Scenarios</a>
+</li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Obfuscation via Tunneling</a>
+</li>
+<li>2.2.   <a href="#rfc.section.2.2">Advanced Support of User Agents</a>
+</li>
+<li>2.3.   <a href="#rfc.section.2.3">Frontend Support for Load Balancing and Migration/Mobility</a>
+</li>
+<li>2.4.   <a href="#rfc.section.2.4">IoT Gateways Use Case</a>
+</li>
+<li>2.5.   <a href="#rfc.section.2.5">Combined Middlebox Usage</a>
+</li>
+</ul><li>3.   <a href="#rfc.section.3">Requirements</a>
+</li>
+<li>4.   <a href="#rfc.section.4">Contributors</a>
+</li>
+<li>5.   <a href="#rfc.section.5">Acknowledgments</a>
+</li>
+<li>6.   <a href="#rfc.references">Informative References</a>
+</li>
+<li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  
+
+</body>
+</html>
+
