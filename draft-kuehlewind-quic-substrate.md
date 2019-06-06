@@ -233,30 +233,30 @@ QUIC {{?I-D.ietf-quic-transport}} for both the end-to-end and tunneling
 services, thus simplifying code dependencies on the gateway nodes.
 
 
-## Combined Middlebox Usage
+## Multi-hop Chaining Usage
 
-Reviewing the above use cases it is actually likely that applications of QUIC
-supporting middleboxes will combine use cases. For example by employing multiple
-in sequence of obfuscating proxies, where the communication with each proxy is
-individually secured, can enable onion like layered security. Each proxy will
-only know the address of the hop prior and after itself like in Tor project
-{{TOR}}.  Another likely scenario is the combination of proxies for different
-reasons. A client may employ an access network related PEPs, while a web service
-provider may utilize a front-end load balancing proxy to provide end-to-end
-secure communication with the applications components servers. Here the PEP and
-the load balancer have different concerns. The PEP's goal is to optimize the
-aggragated data transport. The load balancer needs to route different set of
+Providing a generic approach to use QUIC as a substrate also enables the
+combination of multiples of the above use cases. For example, employing multiple
+obfuscating proxies in sequence, where the communication with each proxy is
+individually secured, can enable onion-like layered security. Each proxy will
+only know the address of the prior hop and after itself, similar as provided by
+onion routing in Tor project {{TOR}}.
+
+Further it would also be possible to chain proxies for different
+reasons. A client may select proxing support from its access network, while a web
+service provider may utilize a front-end load balancing proxy to provide end-to-end
+secure communication with the applications components servers. Here the proxy and
+the load balancer have different tasks. The access network proxy optimizes the
+aggregated data transport. The load balancer needs to route different set of
 end-to-end protected data that it aggregates. A third example would be
-multipliple performance enhacing proxies that attempts to optimize the QUIC
-connection over a specific segment. However, these PEPs will interact and likely
-handle and impact the same connection related information.
+multiple proxies to cooperate and maybe exchange measurement information in order
+to optimize the QUIC connection over a specific segment. 
 
 The above examples indiactes that a solution likely have to consider how to
 establish a security model so that endpoints can selectively choose what
-conneciton related information to share with the various proxies utlized.  The
-possible efficiency should also be consider and blind encapsulation may be
-avoided when the security model allows for it. These aspects will require
-further consideration. 
+connection related information to share with the different proxy entities.  The
+possible efficiency should also be consider and multiple layers of encapsulation 
+should be avoided when the security model allows for it. 
 
 
 # Requirements
