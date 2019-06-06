@@ -26,7 +26,13 @@ author:
   
 normative:
 
+
 informative:
+
+   TOR:
+     title: "TOR Project"
+     date: 2019-06-05
+     target: "https://www.torproject.org/"
 
 --- abstract
 
@@ -227,6 +233,32 @@ QUIC {{?I-D.ietf-quic-transport}} for both the end-to-end and tunneling
 services, thus simplifying code dependencies on the gateway nodes.
 
 
+## Multi-hop Chaining Usage
+
+Providing a generic approach to use QUIC as a substrate also enables the
+combination of multiples of the above use cases. For example, employing multiple
+obfuscating proxies in sequence, where the communication with each proxy is
+individually secured, can enable onion-like layered security. Each proxy will
+only know the address of the prior hop and after itself, similar as provided by
+onion routing in Tor project {{TOR}}.
+
+Further it would also be possible to chain proxies for different
+reasons. A client may select proxing support from its access network, while a web
+service provider may utilize a front-end load balancing proxy to provide end-to-end
+secure communication with the applications components servers. Here the proxy and
+the load balancer have different tasks. The access network proxy optimizes the
+aggregated data transport. The load balancer needs to route different set of
+end-to-end protected data that it aggregates. A third example would be
+multiple proxies to cooperate and maybe exchange measurement information in order
+to optimize the QUIC connection over a specific segment. 
+
+The above examples indiactes that a solution likely have to consider how to
+establish a security model so that endpoints can selectively choose what
+connection related information to share with the different proxy entities.  The
+possible efficiency should also be consider and multiple layers of encapsulation 
+should be avoided when the security model allows for it. 
+
+
 # Requirements
 
 To use QUIC as a substrate, it could be beneficial if unreliable transmission is
@@ -240,6 +272,10 @@ substrate and potentially additional information about which protocol is used fo
 communication between these entities. A similar mechanism could be realized in HTTP 
 instead. In both cases it is important that the QUIC connection cannot be identified
 as a substrate by an observer on the path.
+
+# Contributors
+
+Magnus Westerlund have contributed two paragraphs on combining proxies. 
 
 # Acknowledgments
 
