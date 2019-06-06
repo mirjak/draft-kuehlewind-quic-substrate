@@ -124,7 +124,7 @@ otherwise.
 
 In any of these tunneling scenarios, including those deployed today, the client
 explicitly decides to make use of a proxy service while being fully transparent
-for server, or even with the intention to hide the client's identity from the
+for the server, or even with the intention to hide the client's identity from the
 server. This is explicitly part of the design as these services are targeting an
 impaired or otherwise constrained network setup. Therefore, an explicit
 communication channel between client and proxy is needed to at least
@@ -173,7 +173,7 @@ dependencies to higher layer characteristics as those may change frequently.
 
 Similar as in the previous usage scenario, in this setup the client explicitly
 selects the proxy and specifies the requested support function. Often the server
-may not need to be aware of it, however, depending on optimization function,
+may not need to be aware of it, however, depending on the optimization function,
 server cooperation could be beneficial as well. However, the client and the proxy
 need a direct and secured communication channel in order to request and configure
 a service and exchange or expose the needed information and metadata. 
@@ -204,7 +204,7 @@ in order to advise it about server selection. However, the client is usually not
 any specifics about the setup behind the substrate endpoint.
 
 
-## IoT Gateways Use Case
+## IoT Gateways
 
 A number of IoT devices are connected via a low-power WPAN (e.g., a BLE piconet)
 and need to talk to their parent cloud service to provide sensor readings or
