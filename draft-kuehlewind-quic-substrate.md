@@ -282,13 +282,14 @@ communication between these entities. A similar mechanism could be realized in H
 instead. In both cases it is important that the QUIC connection cannot be identified
 as a substrate by an observer on the path.
 
-As existing proxying functions cannot be perform transparently the QUIC is used, the
-discovery of a proxy on path need to be explicit. In the simplest form of such
-discovery could include pre-configuration or via out-of-band signaling. The proxy
-can advertise it's existence when a client is connected to a network (DHCP), the
-client can get a white-listed proxy address when making first contact with the
-server (CNAME/IPaddress). In both cases the proxy need to have a routable address
-and name.
+With QUIC, the use of proxying functions cannot be done transparently. Instead,
+proxies needs to be explicity discoverable. The simplest form of such discovery
+could include pre-configuration or via out-of-band signaling. The proxy could
+also be discovered through advertisement when a client is connected to a network
+(for example, the Dynamic Host Configuration Protocol). Alternatively, the
+client could obtain a white-listed proxy address when making first contact with
+the server (CNAME/IPaddress). In both cases the proxy needs to have a routable
+address and name.
 
 # Contributors
 
