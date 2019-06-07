@@ -186,29 +186,26 @@ a service and exchange or expose the needed information and metadata.
 
 ## Frontend Support for Load Balancing and Migration/Mobility
 
-In this usage scenario the application service provider aims for flexibility in
-server selection, therefore the client communicates with a reverse proxy that
-may or may not be under the authority of the service provider. Such a proxy
-assists the client to access and select the content requested. Today reverse
+Application service providers aiming to improve access flexibility might use
+proxies in front of their services.
+
+In one usage scenario the client communicates with a reverse proxy that assists
+with access to and selection of the content requested. This proxy that may or
+may not be under the authority of the service provider. Today such reverse
 proxies terminate the connection, including the security association, and as
 such appear as the communication endpoint to the client. Terminating both
-transport and security is especially problematic if the proxy provider is not
-under the direct authority of the actual service provider (e.g. a contracted
-third party).
+transport and security may be problematic if the proxy provider is not under the
+direct authority of the actual service provider (e.g. a contracted third party).
 
-A similar setup may be used to perform load balancing or migration for mobility support,
-of both the server or client, where a frontend proxy can redirect the traffic
-to a different backend server. Today this is realized fully transparent to the client
-and the client is not aware of the network setup behind the proxy. However, such a setup
-may as well benefit in future from an explicit tunneling or proxying approach.
-
-In this usage scenario the client interact with a proxy that is located close to the
-server and potentially even under the same administrative domain or at least has some
-trust relationship with the application service provider. The server is aware of this
-setup and may have an own communication channel with the proxy or tunnel endpoint as well,
-in order to advise it about server selection. However, the client is usually not aware of
-any specifics about the setup behind the substrate endpoint.
-
+In another usage scenario the client communicates with a frontend proxy that
+manages traffic steering to assist with load balancing or migration for mobility
+support of server or client. This proxy is more likely to be located close to
+the server and under the same administrative domain, or at least has some trust
+relationship with the application service provider. The server may have its own
+communication channel with the proxy or tunnel endpoint in order to provide data
+that is used for decision making. Meanwhile, the client is usually not aware of
+any specifics of the setup behind the substrate endpoint. However, improving
+visibility may benefit future explicit tunneling or proxying approaches.
 
 ## IoT Gateways
 
