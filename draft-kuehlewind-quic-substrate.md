@@ -22,7 +22,12 @@ author:
     name: Zaheduzzaman Sarker
     org: Ericsson
     email: zaheduzzaman.sarker@ericsson.com
-  
+  - 
+    ins: T. Fossati
+    name: Thomas Fossati
+    org: Arm
+    email: thomas.fossati@arm.com
+   
   
 normative:
 
@@ -206,31 +211,34 @@ any specifics about the setup behind the substrate endpoint.
 
 ## IoT Gateways
 
-A number of IoT devices are connected via a low-power WPAN (e.g., a BLE piconet)
-and need to talk to their parent cloud service to provide sensor readings or
-receive firmware updates.  When end-to-end IP connectivity is not possible or
-desirable for at least some of the devices, one or more IP capable nodes in the
-piconet can be designated as ad-hoc gateways to forward sensor traffic to the
-cloud and vice-versa.  In other scenarios, a less constrained node - sometimes
-called a "smart gateway" - can assume the forwarding role permanently.  In both
-cases, the gateway node routes messages based on client's session identifiers,
-which need to be unique among all the active participants so that the gateway
-can route unambiguously.  The access network attachment is expected to change
-over time but the end-to-end communication (especially the security
-association) needs to persist for as long as possible.  A strong requirement
-for these deployments is privacy: data on the public Internet (i.e., from the
-gateway to the cloud service) needs to be made as opaque as possible to passive
-observers, possibly hiding the natural traffic patterns associated with the
-sensor network.  A mechanism to provide discovery of the proxy node to the rest
-of the piconet is also typically necessary.
+A number of IoT devices are connected via a low-power wireless network (e.g., a
+Bluetooth LE piconet) and need to talk to their parent cloud service to provide
+sensor readings or receive firmware updates.  When end-to-end IP connectivity
+is not possible or desirable for at least some of the devices, one or more IP
+capable nodes in the piconet can be designated as ad-hoc gateways to forward
+sensor traffic to the cloud and vice-versa.  In other scenarios, a less
+constrained node - sometimes called a "smart gateway" - can assume the
+forwarding role permanently.  In both cases, the gateway node routes messages
+based on client's session identifiers, which need to be unique among all the
+active participants so that the gateway can route unambiguously.  The access
+network attachment is expected to change over time but the end-to-end
+communication (especially the security association) needs to persist for as
+long as possible.  A strong requirement for these deployments is privacy: data
+on the public Internet (i.e., from the gateway to the cloud service) needs to
+be made as opaque as possible to passive observers, possibly hiding the natural
+traffic patterns associated with the sensor network.  A mechanism to provide
+discovery of the proxy node to the rest of the piconet is also typically
+necessary.
 
-Today, the above requirements can be met by composing end-to-end DTLS
-{{?I-D.ietf-tls-dtls-connection-id}} sessions with client-chosen connection IDs
-from the sensors to the cloud together with a multiplexed secure tunnel (e.g.,
-using HTTP/2 Websockets {{?RFC8441}}, or a proprietary shim) from the gateway
-to the cloud.  In the future, a more homogeneous solution could be provided by
-QUIC {{?I-D.ietf-quic-transport}} for both the end-to-end and tunneling
-services, thus simplifying code dependencies on the gateway nodes.
+Today, the above requirements can be met by composing an end-to-end secure
+channel (e.g., based on DTLS sessions with client-chosen connection IDs
+{{?I-D.ietf-tls-dtls-connection-id}} or application layer TLS
+{{?I-D.friel-tls-atls}} from the sensors to the cloud together with a
+multiplexed secure tunnel (e.g., using HTTP/2 Websockets {{?RFC8441}}, or a
+proprietary shim) from the gateway to the cloud.  In the future, a more
+homogeneous solution could be provided by QUIC {{?I-D.ietf-quic-transport}} for
+both the end-to-end and tunneling services, thus simplifying code dependencies
+on the gateway nodes.
 
 
 ## Multi-hop Chaining Usage
@@ -243,7 +251,7 @@ only know the address of the prior hop and after itself, similar as provided by
 onion routing in Tor project {{TOR}}.
 
 Further it would also be possible to chain proxies for different
-reasons. A client may select proxing support from its access network, while a web
+reasons. A client may select proxying support from its access network, while a web
 service provider may utilize a front-end load balancing proxy to provide end-to-end
 secure communication with the applications components servers. Here the proxy and
 the load balancer have different tasks. The access network proxy optimizes the
@@ -252,7 +260,7 @@ end-to-end protected data that it aggregates. A third example would be
 multiple proxies to cooperate and maybe exchange measurement information in order
 to optimize the QUIC connection over a specific segment. 
 
-The above examples indiactes that a solution likely have to consider how to
+The above examples indicates that a solution likely have to consider how to
 establish a security model so that endpoints can selectively choose what
 connection related information to share with the different proxy entities.  The
 possible efficiency should also be consider and multiple layers of encapsulation 
@@ -279,5 +287,5 @@ Magnus Westerlund have contributed two paragraphs on combining proxies.
 
 # Acknowledgments
 
-Thanks to Tommy Pauly, Thomas Fossati, and Lucas Pardue for contributing thoughts
+Thanks to Tommy Pauly, and Lucas Pardue for contributing thoughts
 and comments on these use cases, as well as text edits!
