@@ -17,18 +17,18 @@ author:
     name: Mirja Kuehlewind
     org: Ericsson
     email: mirja.kuehlewind@ericsson.com
-  - 
+  -
     ins: Z. Sarker
     name: Zaheduzzaman Sarker
     org: Ericsson
     email: zaheduzzaman.sarker@ericsson.com
-  - 
+  -
     ins: T. Fossati
     name: Thomas Fossati
     org: Arm
     email: thomas.fossati@arm.com
-   
-  
+
+
 normative:
 
 
@@ -41,7 +41,7 @@ informative:
 
 --- abstract
 
-TCP is often used as a proxying or tunneling protocol. QUIC is a new, 
+TCP is often used as a proxying or tunneling protocol. QUIC is a new,
 emerging transport protocol and there is a similar expectation that it too will
 be used as a substrate once it is widely deployed. Using QUIC instead of TCP in
 existing scenarios will allow proxying and tunneling services to maintain the benefits
@@ -124,7 +124,7 @@ and the proxy. Usually the server is not aware of the proxy in the middle, so
 the proxy needs to re-write the IP address of any traffic inside the tunnel to
 ensure that the return traffic is also routed back to the proxy. This is also often
 used to conceal the address/location of the client to the server, e.g. to access
-local content that would not be accessible by the client at its current location 
+local content that would not be accessible by the client at its current location
 otherwise.
 
 In any of these tunneling scenarios, including those deployed today, the client
@@ -181,29 +181,30 @@ selects the proxy and specifies the requested support function. Often the server
 may not need to be aware of it, however, depending on the optimization function,
 server cooperation could be beneficial as well. However, the client and the proxy
 need a direct and secured communication channel in order to request and configure
-a service and exchange or expose the needed information and metadata. 
+a service and exchange or expose the needed information and metadata.
 
 
-## Frontend Support for Load Balancing and Migration/Mobility 
+## Frontend Support for Load Balancing and Migration/Mobility
 
 In this usage scenario the application service provider aims for flexibility in
-server selection, therefore the client communicates with a reverse proxy that may
-or may not be under the authority of the service provider. Such a proxy assists the client
-to access and select the content requested. Today reverse proxies terminate the
-connection, including the security association, and as such appear as the communication
-endpoint to the client. Terminating not only the transport connection but also the
-security association is especially problematic if the proxy provider is not under the direct
-authority of the actual service provider but a contracted third party.
+server selection, therefore the client communicates with a reverse proxy that
+may or may not be under the authority of the service provider. Such a proxy
+assists the client to access and select the content requested. Today reverse
+proxies terminate the connection, including the security association, and as
+such appear as the communication endpoint to the client. Terminating both
+transport and security is especially problematic if the proxy provider is not
+under the direct authority of the actual service provider (e.g. a contracted
+third party).
 
-A similar setup may be used to perform load balancing or migration for mobility support, 
+A similar setup may be used to perform load balancing or migration for mobility support,
 of both the server or client, where a frontend proxy can redirect the traffic
-to a different backend server. Today this is realized fully transparent to the client 
+to a different backend server. Today this is realized fully transparent to the client
 and the client is not aware of the network setup behind the proxy. However, such a setup
 may as well benefit in future from an explicit tunneling or proxying approach.
 
-In this usage scenario the client interact with a proxy that is located close to the 
-server and potentially even under the same administrative domain or at least has some 
-trust relationship with the application service provider. The server is aware of this 
+In this usage scenario the client interact with a proxy that is located close to the
+server and potentially even under the same administrative domain or at least has some
+trust relationship with the application service provider. The server is aware of this
 setup and may have an own communication channel with the proxy or tunnel endpoint as well,
 in order to advise it about server selection. However, the client is usually not aware of
 any specifics about the setup behind the substrate endpoint.
@@ -258,13 +259,13 @@ the load balancer have different tasks. The access network proxy optimizes the
 aggregated data transport. The load balancer needs to route different set of
 end-to-end protected data that it aggregates. A third example would be
 multiple proxies to cooperate and maybe exchange measurement information in order
-to optimize the QUIC connection over a specific segment. 
+to optimize the QUIC connection over a specific segment.
 
 The above examples indicates that a solution likely have to consider how to
 establish a security model so that endpoints can selectively choose what
 connection related information to share with the different proxy entities.  The
-possible efficiency should also be consider and multiple layers of encapsulation 
-should be avoided when the security model allows for it. 
+possible efficiency should also be consider and multiple layers of encapsulation
+should be avoided when the security model allows for it.
 
 
 # Requirements
@@ -277,7 +278,7 @@ Communication between the client and proxy is more likely to be realized as a
 separate protocol on top of QUIC or HTTP. However, a QUIC extensibility
 mechanism could be used to indicate to the receiver that QUIC is used as a
 substrate and potentially additional information about which protocol is used for
-communication between these entities. A similar mechanism could be realized in HTTP 
+communication between these entities. A similar mechanism could be realized in HTTP
 instead. In both cases it is important that the QUIC connection cannot be identified
 as a substrate by an observer on the path.
 
@@ -291,7 +292,7 @@ and name.
 
 # Contributors
 
-Magnus Westerlund have contributed two paragraphs on combining proxies. 
+Magnus Westerlund have contributed two paragraphs on combining proxies.
 
 # Acknowledgments
 
