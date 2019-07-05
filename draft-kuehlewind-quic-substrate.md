@@ -75,14 +75,20 @@ be used for many other kinds of traffic, whenever the features provided by QUIC
 Specifically, QUIC's ability to multiplex, encrypt data, and migrate between network paths
 makes it ideal for solutions that need to tunnel or proxy traffic.
 
-Existing proxies that are not based on QUIC are often transparent. That is, they do not
-require the cooperation of the ultimate connection endpoints, and are often not
-visible to one or both of the endpoints. If QUIC provides the basis for future tunneling
-and proxying solutions, it is expected that this relationship will change. At least one
-of the endpoints will be aware of the proxy and explicitly coordinate with it. This allows
-client hosts to make explicit decisions about the services they request from proxies
-(for example, simple forward or more advance performance-optimizing services),
-and to do so using a secure communication channel between themselves and the proxy.
+Existing proxies that are not based on QUIC are often transparent. That is, they
+do not require the cooperation of the ultimate connection endpoints, and are
+often not visible to one or both of the endpoints. Use of such a substrate is
+implicit, which has some advantage for deployment scalability. However, the
+transparent proxies are commonly disadvantage by the inability to coordinate
+with endpoints in order to tailor the substrate to their needs. Using QUIC as a
+substrate will likely change such relationships; the QUIC security model makes
+the transparent deployment model more difficult, therefore by necessity, it is
+expected that the relationship between proxy and endpoints will be more
+explicit. This is advantageous because at least one of the endpoints will be
+aware of the proxy and coordinate with it. This could allow client hosts to make
+explicit decisions about the services they request from proxies (for example,
+simple forward or more advance performance-optimizing services), and to do so
+using a secure communication channel between themselves and the proxy.
 
 This document describes some of the use cases for using QUIC for proxying and tunneling,
 and explains the protocol impacts and tradeoffs of such deployments.
