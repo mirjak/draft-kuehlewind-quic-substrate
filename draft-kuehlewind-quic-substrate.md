@@ -183,6 +183,33 @@ server cooperation could be beneficial as well. However, the client and the prox
 need a direct and secured communication channel in order to request and configure
 a service and exchange or expose the needed information and metadata.
 
+### Security and Access Policy Enforcement
+
+Some deployment models may wish to enforce security or access policies on
+traffic flowing between domains (physical, logical, administrative, security
+etc.). To support this, endpoints coordinate through a gateway that can require
+information about the transport layer, application layer and application
+content. Policy is generally configured out-of-band, either statically or
+through some independent control plane.
+
+In one use case, the enforcement function controls egress traffic; a client
+connects to a proxy, typically inside the same domain, in order to cross the
+domain boundary. In another use case, the enforcement function controls ingress
+traffic; a client connects to a proxy that controls access to the ultimate
+destination. This may be deployed inside the target domain, near it, or further
+away as a part of a third-party security service. Clients are usually remote and
+diverse, and use connections that have crossed several other domains (with or
+without tunnels).
+
+Enforcement functions typically require some form of client authentication such
+as username, password or certificate. Authentication is enforced at the earliest
+stage of communication.
+
+Enforcement rules might require access to transport characteristics of the
+ultimate endpoints (such as client source IP address). This might change as
+traffic moves between domains, whether tunneling is used or not. Therefore, it
+can be desireable to encapsulate original information in form accessible to the
+enforcement function.
 
 ## Frontend Support for Load Balancing and Migration/Mobility
 
