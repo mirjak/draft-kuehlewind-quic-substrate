@@ -27,6 +27,11 @@ author:
     name: Thomas Fossati
     org: Arm
     email: thomas.fossati@arm.com
+  -
+    ins: L. Pardue
+    name: Lucas Pardue
+    org: Cloudflare
+    email: lucaspardue.24.7@gmail.com
 
 
 normative:
@@ -317,9 +322,9 @@ address and name.
 
 # Contributors
 
-Magnus Westerlund have contributed two paragraphs on combining proxies.
+Magnus Westerlund has contributed two paragraphs on combining proxies.
 
 # Acknowledgments
 
-Thanks to Tommy Pauly, and Lucas Pardue for contributing thoughts
-and comments on these use cases, as well as text edits!
+Thanks to Tommy Pauly for contributing thoughts and comments on these use cases,
+as well as text edits!
