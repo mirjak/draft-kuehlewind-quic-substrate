@@ -354,7 +354,5 @@ address and name.
 
 Magnus Westerlund has contributed two paragraphs on combining proxies.
 
-# Acknowledgments
-
-Thanks to Tommy Pauly for contributing thoughts and comments on these use cases,
-as well as text edits!
+Tommy Pauly has contributed text on multiple layers of encryption, and other
+edits to the use cases.
