@@ -274,7 +274,7 @@ on the gateway nodes.
 ## Multi-hop Chaining Usage
 
 Providing a generic approach to use QUIC as a substrate also enables the
-combination of multiples of the above use cases. For example, employing multiple
+combination of multiple of the above use cases. For example, employing multiple
 obfuscating proxies in sequence, where the communication with each proxy is
 individually secured, can enable onion-like layered security. Each proxy will
 only know the address of the prior hop and after itself, similar as provided by
@@ -296,6 +296,36 @@ connection related information to share with the different proxy entities.  The
 possible efficiency should also be consider and multiple layers of encapsulation
 should be avoided when the security model allows for it.
 
+### Considerations for Multiple Encryption
+
+Using QUIC in a multi-hop fashion will generally cause all user data to be
+encrypted multiple times, once for each hop. There are two main reasons
+to encrypt data multiple times in a multi-hop network:
+
+1. To ensure that no hop can see both the connection metadata
+of the client and the server (thus obfuscating IP addresses and other related
+data that is visible in cleartext in the transport protocol headers).
+
+2. To prevent an attacker from being able to correlate data between
+different hops to identify a particular flow of data as it passes through multiple
+hops.
+
+However, multiple layers of encryption can have a noticable impact on the
+end-to-end latency of data. When a Tor-like approach is used, each
+piece of user data will be encrypted N times, where N is the number of hops.
+Devices such as IoT devices that do not have optimized cryptographic process,
+or are constrained in terms of processing or power usage, could notice a
+slowdown due to the extra overhead.
+
+Since QUIC is an encrypted transport, it is possible that all packets after a
+handshake is completed are opaque to any attacker. Short-header packets,
+particularly those that have zero-length Connection IDs, only send encrypted
+fields. Thus, for all packets beyond the QUIC handshake, encrypting packets
+multiple times through a multi-hop proxy primarily achieves benefit 2 described
+above, since benefit 1 is already achieved by QUIC being forwarded without
+re-encrytion. If a deployment is more concerned with benefit 1 than benefit 2,
+it might be preferable to use a solution that forwards QUIC packets without
+re-encrypting once QUIC handshakes are complete.
 
 # Requirements
 
