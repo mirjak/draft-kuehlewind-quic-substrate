@@ -114,8 +114,8 @@ the proxy, which protects the identity of a private server's address or circumve
 local firewall rules.
 
 - Obfuscating the client's IP address from the perspective of observers after the proxy,
-to the end server itself. This allows the client to select content as if it has the address
-or location of the proxy.
+to the end server itself. This allows the client to reduce information leaked about its actual
+location, improving privacy.
 
 - Obfuscating the traffic patterns of the traffic from the perspective of observers
 between the client and the proxy. If the content of connections to many end servers
@@ -146,9 +146,8 @@ other information needed to inform the behaviour of the proxy.
 Depending on the traffic that is sent "over" the proxy, it is also possible that
 the proxy can perform additional support services if requested by the client.
 Today, Performance Enhancing Proxies (PEPs) usually work transparently by either
-fully or partially terminating the transport connection or even intercepting the
-end-to-end encryption. For many of these support services termination
-is actually not needed and may even be problematic. However, it is often the only,
+fully or partially terminating the transport connection. For many of these support services
+the termination is actually not needed and may even be problematic. However, it is often the only,
 or at least easiest, solution if no direct communication with the client is available.
 Enabling these services based on an explicit tunnel setup between the client and
 the proxy provides such a communication channel and makes it possible to
@@ -170,13 +169,15 @@ also assist the client to adapt the traffic based on device characteristics and
 capabilities or user preferences. Again, especially if the access network is
 constrained, this can benefit both the network provider to save resources and
 the client to receive the desired service quicker or less impaired. Such a
-service could even be extended to include caching or pre-fetching depending on
-the trust relationship between the client and the proxy.
+service could even be extended to include caching or pre-fetching if the necessary
+trust relationship between the client and the proxy exist.
 
 Depending on the function provided, the proxy may need to access or alter the
-traffic or content. Alternatively, if the information provided by the client or proxy
-can be trusted, it might in some cases also be possible for each of the entities
-to act based on this information without the need to access the content or some
+traffic or context. This is limiting due to the necessary trust. Therefore
+alternative models should be purused in most cases. One such model is information exchange between the
+client and proxy. This enables some services to function by having the end-to-end peers
+act on or inject the learned information from the proxy into the end-to-end connection(s).
+Thus achieving the benefits without the need to access the content or some
 of the traffic metadata directly. Especially transport layer optimizations do not need
 access to the actual user content. Network functions should generally minimize
 dependencies to higher layer characteristics as those may change frequently.
@@ -348,7 +349,7 @@ also be discovered through advertisement when a client is connected to a network
 (for example, the Dynamic Host Configuration Protocol). Alternatively, the
 client could obtain a white-listed proxy address when making first contact with
 the server (CNAME/IPaddress). In both cases the proxy needs to have a routable
-address and name.
+address and name. 
 
 # Contributors
 
