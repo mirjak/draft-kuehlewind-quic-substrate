@@ -100,7 +100,7 @@ as proposed by MASQUE, and explains the protocol impacts and tradeoffs of such d
 
 ## Obfuscation via Tunneling
 
-Tunnels are used in many scenarios within the core of the network as well as
+Tunnels are used in many scenarios within the core of the network
 from a client endpoint to a proxy middlepoint on the way towards the server. In many cases, when
 the client explicitly decides to use the support of a proxy in order to
 connect to a server, it does so because a direct connection may be blocked or impaired. This
@@ -109,22 +109,8 @@ and web traffic needs to be routed over an explicitly provided HTTP proxy, or
 other reasons for blocking of certain services e.g. due to censorship, data
 exfiltration protection, etc.
 
-In this usage scenario the client knows the proxy's address and explicitly
-selects to connect to the proxy in order to instruct the proxy to forward its
-traffic to a specific server. At a minimum, the client needs to communicate
-directly with the proxy to provide the address of the server it wants to connect to,
-e.g. using HTTP CONNECT.
-
 Tunneling through a proxy server can provide various benefits, particularly when
 using a proxy that has a secure multiplexed channel like QUIC:
-
-- Obfuscating the end server's IP address from the observers between the client and
-the proxy, which protects the identity of a private server's address or circumvents
-local firewall rules.
-
-- Obfuscating the client's IP address from the perspective of observers after the proxy,
-to the end server itself. This allows the client to reduce information leaked about its actual
-location, improving privacy.
 
 - Obfuscating the traffic patterns of the traffic from the perspective of observers
 between the client and the proxy. If the content of connections to many end servers
@@ -132,23 +118,34 @@ can be coalesced as one flow, it becomes increasingly difficult for observers to
 detect how many inner connections are being used, or what the content of
 those connections are.
 
-Such a setup can also be realized with the use of an outer tunnel which would additionally
-obfuscate the content of the tunnel traffic to any observer between the client
-and the proxy. Usually the server is not aware of the proxy in the middle, so
+- Obfuscating the client's IP address from the perspective of observers after the proxy,
+to the end server itself. This allows the client to reduce information leaked about its actual
+location, improving privacy.
+
+- Obfuscating the end server's IP address from the observers between the client and
+the proxy, which protects the identity of a private server's address or circumvents
+local firewall rules.
+
+In any of these tunneling scenarios, including those deployed today, the client
+explicitly decides to make use of a proxy service while it is usually fully transparent
+for the server, or even with the intention to hide the client's identity from the
+server. This is explicitly part of the design as these services are targeting an
+impaired or otherwise constrained network setup. 
+
+Therefore, in this usage scenario the client knows the proxy's address and explicitly
+selects to connect to the proxy in order to instruct the proxy to forward its
+traffic to a specific target server. Often the proxy is also preconfigured to "know" the 
+client and therefore the client needs to authenticate itself.  But even without authentication,
+at a minimum, the client needs to communicate directly with the proxy to provide
+the address of the target server it wants to connect to, e.g. using HTTP CONNECT,
+and potentially other information needed to inform the behaviour of the proxy.
+
+Usually the server is not aware of the proxy in the middle, so
 the proxy needs to re-write the IP address of any traffic inside the tunnel to
 ensure that the return traffic is also routed back to the proxy. This is also often
 used to conceal the address/location of the client to the server, e.g. to access
 local content that would not be accessible by the client at its current location
 otherwise.
-
-In any of these tunneling scenarios, including those deployed today, the client
-explicitly decides to make use of a proxy service while being fully transparent
-for the server, or even with the intention to hide the client's identity from the
-server. This is explicitly part of the design as these services are targeting an
-impaired or otherwise constrained network setup. Therefore, an explicit
-communication channel between client and proxy is needed to at least
-communicate the information about the target server's address, and potentially
-other information needed to inform the behaviour of the proxy.
 
 ## Advanced Support of User Agents
 
