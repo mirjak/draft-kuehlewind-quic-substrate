@@ -86,7 +86,7 @@ client hosts to make explicit decisions about the services they request from pro
 (for example, simple forwarding or more advance, e.g. performance-optimizing, services),
 and to do so using a secure communication channel between themselves and the proxy.
 
-MASQUE {{MASQUE}} is a proposed framework that allows running multiple network or
+MASQUE {{!I-D.schinazi-masque}} is a proposed framework that allows running multiple network or
 application services inside one QUIC connection to be forwarded to one or
 more target servers. The end-to-end traffic between the client and the target server
 will be tunnelled in a (outer) QUIC connection between the client and the MASQUE server.
@@ -374,16 +374,16 @@ the specified target server and forwards all traffic following the HTTP CONNECT.
 This enables forwarding based on a split TCP connections but unaltered payload traffic,
 including an end-to-end TLS connection. Currently HTTP CONNECT is only specified
 to open a TCP connection, even when HTTP/3 over QUIC is used between the client
-and the proxy {{?I-D.draft-ietf-quic-http}}.
+and the proxy {{?I-D.ietf-quic-http}}.
 
 An explicit proxy control protocol is the SOCKS protocol {{?RFC1928}}. Version 6
-is currently under standardization {{?I-D.draft-olteanu-intarea-socks-6}} which provides
+is currently under standardization {{?I-D.olteanu-intarea-socks-6}} which provides
 fast connection establishment. Use of QUIC could even further improve that. However,
 SOCKS provides support to establish forwarding sockets using a new connection (with
 a different port). This behavior is visible to the path and not necessary if the
 underlying transport is multiplexing capable, as QUIC is. A SOCKS-like protocol
 could still be used for negotiation and authentication between the client and the 
-proxy. An example proposal for this approach is {{?I-D.draft-piraux-quic-tunnel}}.
+proxy. An example proposal for this approach is {{?I-D.piraux-quic-tunnel}}.
 
 In that sense the TCP PROXY protocol could also be seen as a light-weight version
 of SOCKS (see https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt). This
