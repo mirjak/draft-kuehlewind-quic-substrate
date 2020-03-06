@@ -46,6 +46,8 @@ informative:
 
 --- abstract
 
+In situation where direct connectivity is not available or desired, proxies in the network
+are used to forward and potentially translate traffic.
 TCP is often used as a proxying or tunneling protocol. QUIC is a new,
 emerging transport protocol and there is a similar expectation that it too will
 be used as a substrate once it is widely deployed. Using QUIC instead of TCP in
@@ -53,14 +55,14 @@ existing scenarios will allow proxying and tunneling services to maintain the be
 of QUIC natively, without degrading the performance and security characteristics.
 QUIC also opens up new opportunities for these services to have lower latency and
 better multistreaming support. This document summarizes current and future usage
-scenarios to derive requirements for QUIC and to provide additional protocol
-considerations.
+scenarios to derive requirements for QUIC as a substrate and to provide additional
+considerations for proxy singaling and control protocol as proposed by MASQUE.
 
 --- middle
 
 # Introduction
 
-QUIC is a new transport protocol that was initially developed as a way to optimize
+QUIC is a new transport protocol that was developed with a focus on optimizing
 HTTP traffic by supporting multiplexing without head-of-line-blocking and integrating
 security directly into the transport. This tight integration of security allows the transport
 and security handshakes to be combined into a single round-trip exchange, after which
@@ -73,7 +75,7 @@ Beyond HTTP, however, QUIC provides a general-purpose transport protocol that ca
 be used for many other kinds of traffic, whenever the features provided by QUIC
 (compared to existing options, like TCP) are beneficial to the high-layer service.
 Specifically, QUIC's ability to multiplex, encrypt data, and migrate between network paths
-makes it ideal for solutions that need to tunnel or proxy traffic.
+makes it ideal for solutions that needs to tunnel or proxy traffic.
 
 Existing proxies that are not based on QUIC are often transparent. That is, they do not
 require the cooperation of the ultimate connection endpoints, and are often not
@@ -81,11 +83,18 @@ visible to one or both of the endpoints. If QUIC provides the basis for future t
 and proxying solutions, it is expected that this relationship will change. At least one
 of the endpoints will be aware of the proxy and explicitly coordinate with it. This allows
 client hosts to make explicit decisions about the services they request from proxies
-(for example, simple forward or more advance performance-optimizing services),
+(for example, simple forwarding or more advance, e.g. performance-optimizing, services),
 and to do so using a secure communication channel between themselves and the proxy.
 
+MASQUE {{MASQUE}} is a proposed framework that allows running multiple network or
+application services inside one QUIC connection to be forwarded to one or
+more target servers. The end-to-end traffic between the client and the target server
+will be tunnelled in a (outer) QUIC connection between the client and the MASQUE server.
+This outer connection can also be used to securely exchange additional signal or control 
+information between the MASQUE server and the client.
+
 This document describes some of the use cases for using QUIC for proxying and tunneling,
-and explains the protocol impacts and tradeoffs of such deployments.
+as proposed by MASQUE, and explains the protocol impacts and tradeoffs of such deployments.
 
 # Usage Scenarios
 
