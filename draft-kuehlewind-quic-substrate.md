@@ -171,17 +171,19 @@ help to optimize for the specific characteristics of the access network such as 
 of link-specific congestion control or local repair mechanisms.
 
 Further, if not provided by the server directly, a network support function can
-also assist the client to adapt the traffic based on device characteristics and
-capabilities or user preferences. Again, especially if the access network is
+also assist the client to adapt or prioritize the traffic based on user preferences
+or device characteristics and capabilities. Again, especially if the access network is
 constrained, this can benefit both the network provider to save resources and
 the client to receive the desired service quicker or less impaired. Such a
 service could even be extended to include caching or pre-fetching if the necessary
-trust relationship between the client and the proxy exist.
+trust relationship between the client and the proxy exists.
 
-Depending on the function provided, the proxy may need to access or alter the
-traffic or context. This is limiting due to the necessary trust. Therefore
-alternative models should be purused in most cases. One such model is information exchange between the
-client and proxy. This enables some services to function by having the end-to-end peers
+Depending on the function requested, the proxy would need to access or alter the
+traffic or context which is limiting due to the necessary trust. Therefore
+alternative models should be pursued in most cases. One such model is
+explicit information exchange of information about the current network state
+from the proxy to the client. 
+This enables some services to function by having the end-to-end peers
 act on or inject the learned information from the proxy into the end-to-end connection(s).
 Thus achieving the benefits without the need to access the content or some
 of the traffic metadata directly. Especially transport layer optimizations do not need
@@ -191,9 +193,12 @@ dependencies to higher layer characteristics as those may change frequently.
 Similar as in the previous usage scenario, in this setup the client explicitly
 selects the proxy and specifies the requested support function. Often the server
 may not need to be aware of it, however, depending on the optimization function,
-server cooperation could be beneficial as well. However, the client and the proxy
-need a direct and secured communication channel in order to request and configure
-a service and exchange or expose the needed information and metadata.
+server cooperation could be beneficial as well. Usually, it is, however, expected that
+ifg the server is aware there no directly information exchange needed between the proxy
+and the server but any needed information will be provided "over" the client. 
+Thus, the client and the proxy need a direct and secured communication channel
+in order to request and configure a service and exchange or expose the needed 
+information and metadata.
 
 ### Security and Access Policy Enforcement
 
@@ -214,13 +219,13 @@ diverse, and use connections that have crossed several other domains (with or
 without tunnels).
 
 Enforcement functions typically require some form of client authentication such
-as username, password or certificate. Authentication is enforced at the earliest
+as username, password, or certificate. Authentication is enforced at the earliest
 stage of communication.
 
 Enforcement rules might require access to transport characteristics of the
 ultimate endpoints (such as client source IP address). This might change as
 traffic moves between domains, whether tunneling is used or not. Therefore, it
-can be desireable to encapsulate original information in form accessible to the
+can be desirable to encapsulate original information in form accessible to the
 enforcement function.
 
 ## Frontend Support for Load Balancing and Migration/Mobility
@@ -250,20 +255,24 @@ visibility may benefit future explicit tunneling or proxying approaches.
 
 A number of IoT devices are connected via a low-power wireless network (e.g., a
 Bluetooth LE piconet) and need to talk to their parent cloud service to provide
-sensor readings or receive firmware updates.  When end-to-end IP connectivity
-is not possible or desirable for at least some of the devices, one or more IP
-capable nodes in the piconet can be designated as ad-hoc gateways to forward
-sensor traffic to the cloud and vice-versa.  In other scenarios, a less
-constrained node - sometimes called a "smart gateway" - can assume the
+sensor readings or receive firmware updates.
+
+When end-to-end IP connectivity is not possible or desirable for at least
+some of the devices, one or more IP capable nodes in the piconet can be
+designated as ad-hoc gateways to forward sensor traffic to the cloud and
+vice-versa.  In other scenarios, a less 
+constrained node - sometimes called a "smart gateway" - can provide the
 forwarding role permanently.  In both cases, the gateway node routes messages
 based on client's session identifiers, which need to be unique among all the
 active participants so that the gateway can route unambiguously.  The access
 network attachment is expected to change over time but the end-to-end
 communication (especially the security association) needs to persist for as
-long as possible.  A strong requirement for these deployments is privacy: data
+long as possible.
+
+A strong requirement for these deployments is privacy: data
 on the public Internet (i.e., from the gateway to the cloud service) needs to
 be made as opaque as possible to passive observers, possibly hiding the natural
-traffic patterns associated with the sensor network.  A mechanism to provide
+traffic patterns associated with the sensor network. A mechanism to provide
 discovery of the proxy node to the rest of the piconet is also typically
 necessary.
 
@@ -273,9 +282,8 @@ channel (e.g., based on DTLS sessions with client-chosen connection IDs
 {{?I-D.friel-tls-atls}} from the sensors to the cloud together with a
 multiplexed secure tunnel (e.g., using HTTP/2 Websockets {{?RFC8441}}, or a
 proprietary shim) from the gateway to the cloud.  In the future, a more
-homogeneous solution could be provided by QUIC {{?I-D.ietf-quic-transport}} for
-both the end-to-end and tunneling services, thus simplifying code dependencies
-on the gateway nodes.
+homogeneous solution could be provided by QUIC for both the end-to-end and
+tunneling services, thus simplifying code dependencies on the gateway nodes.
 
 
 ## Multi-hop Chaining Usage
@@ -287,7 +295,7 @@ individually secured, can enable onion-like layered security. Each proxy will
 only know the address of the prior hop and after itself, similar as provided by
 onion routing in Tor project {{TOR}}.
 
-Further it would also be possible to chain proxies for different
+Further, it would also be possible to chain proxies for different
 reasons. A client may select proxying support from its access network, while a web
 service provider may utilize a front-end load balancing proxy to provide end-to-end
 secure communication with the applications components servers. Here the proxy and
@@ -317,20 +325,20 @@ data that is visible in cleartext in the transport protocol headers).
 different hops to identify a particular flow of data as it passes through multiple
 hops.
 
-However, multiple layers of encryption can have a noticable impact on the
+However, multiple layers of encryption can have a noticeable impact on the
 end-to-end latency of data. When a Tor-like approach is used, each
 piece of user data will be encrypted N times, where N is the number of hops.
-Devices such as IoT devices that do not have optimized cryptographic process,
-or are constrained in terms of processing or power usage, could notice a
-slowdown due to the extra overhead.
+Devices such as IoT devices that may not have support for cryptographic optimizations,
+or are constrained in terms of processing or power usage, could be significantly
+slow-downed due to the extra overhead or not be able to process such traffic at all. 
 
-Since QUIC is an encrypted transport, it is possible that all packets after a
-handshake is completed are opaque to any attacker. Short-header packets,
+Since QUIC is an encrypted transport, the content of all packets after the
+handshake is opaque to any attacker. Short-header packets,
 particularly those that have zero-length Connection IDs, only send encrypted
 fields. Thus, for all packets beyond the QUIC handshake, encrypting packets
-multiple times through a multi-hop proxy primarily achieves benefit 2 described
-above, since benefit 1 is already achieved by QUIC being forwarded without
-re-encrytion. If a deployment is more concerned with benefit 1 than benefit 2,
+multiple times through a multi-hop proxy primarily achieves benefit 2) described
+above, since benefit 1) is already achieved by QUIC being forwarded without
+re-encryption. If a deployment is more concerned with benefit 1) than benefit 2),
 it might be preferable to use a solution that forwards QUIC packets without
 re-encrypting once QUIC handshakes are complete.
 
@@ -341,7 +349,8 @@ supported as well as having a way to potentially influence or disable congestion
 control if the inner tunnel traffic is known to be congestion controlled.
 
 Communication between the client and proxy is more likely to be realized as a
-separate protocol on top of QUIC or HTTP. However, a QUIC extensibility
+separate protocol on top of QUIC or HTTP as e.g. proposed by MASQUE. 
+However, a QUIC extensibility 
 mechanism could be used to indicate to the receiver that QUIC is used as a
 substrate and potentially additional information about which protocol is used for
 communication between these entities. A similar mechanism could be realized in HTTP
@@ -349,7 +358,7 @@ instead. In both cases it is important that the QUIC connection cannot be identi
 as a substrate by an observer on the path.
 
 With QUIC, the use of proxying functions cannot be done transparently. Instead,
-proxies needs to be explicity discoverable. The simplest form of such discovery
+proxies needs to be explicitly discoverable. The simplest form of such discovery
 could include pre-configuration or via out-of-band signaling. The proxy could
 also be discovered through advertisement when a client is connected to a network
 (for example, the Dynamic Host Configuration Protocol). Alternatively, the
