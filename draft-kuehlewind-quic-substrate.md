@@ -90,7 +90,7 @@ MASQUE {{!I-D.schinazi-masque}} is a proposed framework that allows running mult
 application services inside one QUIC connection to be forwarded to one or
 more target servers. The end-to-end traffic between the client and the target server
 will be tunnelled in a (outer) QUIC connection between the client and the MASQUE server.
-This outer connection can also be used to securely exchange additional signal or control 
+This outer connection can also be used to securely exchange additional signal or control
 information between the MASQUE server and the client.
 
 This document describes some of the use cases for using QUIC for proxying and tunneling,
@@ -130,11 +130,11 @@ In any of these tunneling scenarios, including those deployed today, the client
 explicitly decides to make use of a proxy service while it is usually fully transparent
 for the server, or even with the intention to hide the client's identity from the
 server. This is explicitly part of the design as these services are targeting an
-impaired or otherwise constrained network setup. 
+impaired or otherwise constrained network setup.
 
 Therefore, in this usage scenario the client knows the proxy's address and explicitly
 selects to connect to the proxy in order to instruct the proxy to forward its
-traffic to a specific target server. Often the proxy is also preconfigured to "know" the 
+traffic to a specific target server. Often the proxy is also preconfigured to "know" the
 client and therefore the client needs to authenticate itself.  But even without authentication,
 at a minimum, the client needs to communicate directly with the proxy to provide
 the address of the target server it wants to connect to, e.g. using HTTP CONNECT,
@@ -182,7 +182,7 @@ Depending on the function requested, the proxy would need to access or alter the
 traffic or context which is limiting due to the necessary trust. Therefore
 alternative models should be pursued in most cases. One such model is
 explicit information exchange of information about the current network state
-from the proxy to the client. 
+from the proxy to the client.
 This enables some services to function by having the end-to-end peers
 act on or inject the learned information from the proxy into the end-to-end connection(s).
 Thus achieving the benefits without the need to access the content or some
@@ -195,9 +195,9 @@ selects the proxy and specifies the requested support function. Often the server
 may not need to be aware of it, however, depending on the optimization function,
 server cooperation could be beneficial as well. Usually, it is, however, expected that
 ifg the server is aware there no directly information exchange needed between the proxy
-and the server but any needed information will be provided "over" the client. 
+and the server but any needed information will be provided "over" the client.
 Thus, the client and the proxy need a direct and secured communication channel
-in order to request and configure a service and exchange or expose the needed 
+in order to request and configure a service and exchange or expose the needed
 information and metadata.
 
 ### Security and Access Policy Enforcement
@@ -260,7 +260,7 @@ sensor readings or receive firmware updates.
 When end-to-end IP connectivity is not possible or desirable for at least
 some of the devices, one or more IP capable nodes in the piconet can be
 designated as ad-hoc gateways to forward sensor traffic to the cloud and
-vice-versa.  In other scenarios, a less 
+vice-versa.  In other scenarios, a less
 constrained node - sometimes called a "smart gateway" - can provide the
 forwarding role permanently.  In both cases, the gateway node routes messages
 based on client's session identifiers, which need to be unique among all the
@@ -330,7 +330,7 @@ end-to-end latency of data. When a Tor-like approach is used, each
 piece of user data will be encrypted N times, where N is the number of hops.
 Devices such as IoT devices that may not have support for cryptographic optimizations,
 or are constrained in terms of processing or power usage, could be significantly
-slow-downed due to the extra overhead or not be able to process such traffic at all. 
+slow-downed due to the extra overhead or not be able to process such traffic at all.
 
 Since QUIC is an encrypted transport, the content of all packets after the
 handshake is opaque to any attacker. Short-header packets,
@@ -349,8 +349,8 @@ supported as well as having a way to potentially influence or disable congestion
 control if the inner tunnel traffic is known to be congestion controlled.
 
 Communication between the client and proxy is more likely to be realized as a
-separate protocol on top of QUIC or HTTP as e.g. proposed by MASQUE. 
-However, a QUIC extensibility 
+separate protocol on top of QUIC or HTTP as e.g. proposed by MASQUE.
+However, a QUIC extensibility
 mechanism could be used to indicate to the receiver that QUIC is used as a
 substrate and potentially additional information about which protocol is used for
 communication between these entities. A similar mechanism could be realized in HTTP
@@ -364,17 +364,26 @@ also be discovered through advertisement when a client is connected to a network
 (for example, the Dynamic Host Configuration Protocol). Alternatively, the
 client could obtain a white-listed proxy address when making first contact with
 the server (CNAME/IPaddress). In both cases the proxy needs to have a routable
-address and name. 
+address and name.
 
 # Review of Existing Approaches
 
 As already mentioned, HTTP proxies are usually realized by use of the HTTP
-CONNECT method of the HTTP protocol. Such a proxy opens a TCP towards
-the specified target server and forwards all traffic following the HTTP CONNECT. 
-This enables forwarding based on a split TCP connections but unaltered payload traffic,
-including an end-to-end TLS connection. Currently HTTP CONNECT is only specified
-to open a TCP connection, even when HTTP/3 over QUIC is used between the client
-and the proxy {{?I-D.ietf-quic-http}}.
+CONNECT method (see Section 4.3.6 of {{?RFC7231}}). This is commonly used to
+establish a tunnelled TLS session over a TCP connection to an origin server
+identified by a request-target. In HTTP/1.1, the entire client-to-proxy HTTP
+connection is converted into a tunnel. In HTTP/2 (see Section 8.3 of
+{{?RFC7540}}) and HTTP/3 (see Section 4.2 of {{?I-D.ietf-quic-http}}), a single
+stream gets dedicated to a tunnel. Conventional HTTP CONNECT is only specified
+to open a TCP connection between proxy and server, even in HTTP/3, so it enables
+forwarding based on a split TCP-TCP or QUIC-TCP connection but unaltered payload
+traffic. There is no currently-specified HTTP mechanism to instruct a proxy to
+create a UDP or IP association to the server.
+{{?HINT=I-D.pardue-httpbis-http-network-tunnelling}} contains a deeper analysis of
+the problem space and potential solutions. Of those explored, a good candidate
+for MASQUE is the Extended CONNECT method {{?RFC8441}}, accepts a ":protocol"
+pseudo-header that could be used to express an alternative protocol between
+proxy and server.
 
 An explicit proxy control protocol is the SOCKS protocol {{?RFC1928}}. Version 6
 is currently under standardization {{?I-D.olteanu-intarea-socks-6}} which provides
@@ -382,7 +391,7 @@ fast connection establishment. Use of QUIC could even further improve that. Howe
 SOCKS provides support to establish forwarding sockets using a new connection (with
 a different port). This behavior is visible to the path and not necessary if the
 underlying transport is multiplexing capable, as QUIC is. A SOCKS-like protocol
-could still be used for negotiation and authentication between the client and the 
+could still be used for negotiation and authentication between the client and the
 proxy. An example proposal for this approach is {{?I-D.piraux-quic-tunnel}}.
 
 In that sense the TCP PROXY protocol could also be seen as a light-weight version
