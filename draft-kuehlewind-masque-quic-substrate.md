@@ -1,7 +1,7 @@
 ---
 title: Use Cases and Requirements for QUIC as a Substrate
 abbrev: QUIC Substrate
-docname: draft-kuehlewind-quic-substrate-latest
+docname: draft-kuehlewind-masque-quic-substrate-latest
 date:
 category: info
 
