@@ -135,7 +135,8 @@ impaired or otherwise constrained network setup.
 Therefore, in this usage scenario the client knows the proxy's address and explicitly
 selects to connect to the proxy in order to instruct the proxy to forward its
 traffic to a specific target server. Often the proxy is also preconfigured to "know" the
-client and therefore the client needs to authenticate itself.  But even without authentication,
+client and therefore the client needs to authenticate itself (e.g. using HTTP Transport
+Authentication {{?I-D.schinazi-httpbis-transport-auth}}). But even without authentication,
 at a minimum, the client needs to communicate directly with the proxy to provide
 the address of the target server it wants to connect to, e.g. using HTTP CONNECT,
 and potentially other information needed to inform the behaviour of the proxy.
