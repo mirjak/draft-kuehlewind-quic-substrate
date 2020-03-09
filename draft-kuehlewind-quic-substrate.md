@@ -369,12 +369,21 @@ address and name.
 # Review of Existing Approaches
 
 As already mentioned, HTTP proxies are usually realized by use of the HTTP
-CONNECT method of the HTTP protocol. Such a proxy opens a TCP towards
-the specified target server and forwards all traffic following the HTTP CONNECT.
-This enables forwarding based on a split TCP connections but unaltered payload traffic,
-including an end-to-end TLS connection. Currently HTTP CONNECT is only specified
-to open a TCP connection, even when HTTP/3 over QUIC is used between the client
-and the proxy {{?I-D.ietf-quic-http}}.
+CONNECT method (see Section 4.3.6 of {{?RFC7231}}). This is commonly used to
+establish a tunnelled TLS session over a TCP connection to an origin server
+identified by a request-target. In HTTP/1.1, the entire client-to-proxy HTTP
+connection is converted into a tunnel. In HTTP/2 (see Section 8.3 of
+{{?RFC7540}}) and HTTP/3 (see Section 4.2 of {{?I-D.ietf-quic-http}}), a single
+stream gets dedicated to a tunnel. Conventional HTTP CONNECT is only specified
+to open a TCP connection between proxy and server, even in HTTP/3, so it enables
+forwarding based on a split TCP-TCP or QUIC-TCP connection but unaltered payload
+traffic. There is no currently-specified HTTP mechanism to instruct a proxy to
+create a UDP or IP association to the server.
+{{?HINT=I-D.pardue-httpbis-http-network-tunnelling}} contains a deeper analysis of
+the problem space and potential solutions. Of those explored, a good candidate
+for MASQUE is the Extended CONNECT method {{?RFC8441}}, accepts a ":protocol"
+pseudo-header that could be used to express an alternative protocol between
+proxy and server.
 
 An explicit proxy control protocol is the SOCKS protocol {{?RFC1928}}. Version 6
 is currently under standardization {{?I-D.olteanu-intarea-socks-6}} which provides
